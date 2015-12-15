@@ -1,6 +1,24 @@
 <h1>Editing Question</h1>
 
-<%= render 'form' %>
+<%= form_for(@question) do |f| %>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title, :placeholder => "Question Title" %>
+  </p>
 
-<%= link_to 'Show', @question %> |
-<%= link_to 'Back', questions_path %>
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_area :description, :placeholder => "Question Description" %>
+  </p>
+
+  <%= render 'form' %>
+
+<% end %>
+
+<p>
+  <%= link_to 'Destroy', @question, method: :delete, data: { confirm: 'Are you sure?' } %>
+</p>
+
+<p>  
+  <%= link_to 'Back to Question', questions_path %>
+</p>

@@ -1,5 +1,19 @@
-<h1>New Answer</h1>
+<h1>Add Answer</h1>
 
-<%= render 'form' %>
+<div class="">
 
-<%= link_to 'Back', answers_path %>
+  <%= form_for([@question, @answer]) do |f| %>
+    <p>
+      <%= f.label :description, "Add an Answer" %><br>
+      <%= f.text_area :description, placeholder: "Answer Description" %>
+    </p>
+
+    <%= f.hidden_field :question_id, value: @question.id%>
+
+    <%= render 'form' %>
+
+  <% end %>
+
+</div>
+
+<%= link_to 'Back to Question', @question %>
