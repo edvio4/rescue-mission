@@ -11,7 +11,9 @@ class QuestionsController < ApplicationController
   # GET /questions/1
   # GET /questions/1.json
   def show
-    @answers = Answer.where(question: @question)
+    @answers = Answer.where(question: @question).order(best_answer: :asc)
+    @answer = Answer.new
+    @best_answer_flag = true unless @answers.exists?(best_answer: true)
   end
 
   # GET /questions/new
@@ -27,9 +29,9 @@ class QuestionsController < ApplicationController
   # POST /questions
   # POST /questions.json
   def create
-  @question = Question.new(question_params)
-  flash[:notice] = 'Question was successfully created.' if @question.save
-  respond_with(@question)
+    @question = Question.new(question_params)
+    flash[:notice] = 'Question was successfully created.' if @question.save
+    respond_with(@question)
   end
 
   # PATCH/PUT /questions/1
@@ -43,7 +45,7 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1.json
   def destroy
     @question.destroy
-    answers = Answer.where(question: @question)
+    answers = Answer.where(question: @question).order(best_answer: :asc)
     answers.each { |answer| answer.destroy }
 
     respond_to do |format|

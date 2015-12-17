@@ -1,33 +1,34 @@
 class AnswersController < ApplicationController
   respond_to :html, :json
 
-
-  # GET questions/:id/answers/new
-  def new
-    @question = Question.find(params[:question_id])
-    @answer = Answer.new
-  end
-
-
   # POST questions/:id/answers/new
   # POST /answers.json
   def create
-    @answer = Answer.new(answer_params)
-    @question = Question.find(params[:answer][:question_id])
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.new(answer_params)
+    flash[:notice] = 'Question was successfully added.' if @answer.save
     respond_to do |format|
       if @answer.save
         format.html { redirect_to @question, notice: 'Answer was successfully added.' }
         format.json { render :'/questions/show', status: :created, location: @question }
       else
-        format.html { render :new }
+        @answers = Answer.where(question: @question).order(best_answer: :asc)
+        format.html { render :'/questions/show' }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
       end
     end
   end
 
+  def update
+    @answer = Answer.find(params[:id])
+    @question = Question.find(@answer.question_id)
+    flash[:notice] = 'You have successfully chosen the best answer.' if @answer.update(answer_params)
+    respond_with(@question)
+  end
+
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def answer_params
-      params.require(:answer).permit(:description, :question_id)
+      params.require(:answer).permit(:description, :best_answer)
     end
 end

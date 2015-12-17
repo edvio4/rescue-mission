@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root 'questions#index'
 
-  resources :questions
-  resources :answers, only: []
+  resources :questions, only: [:index, :show, :create, :update, :destroy]
+  resources :answers, only: [:update]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   #     resource :seller
   #   end
   resources :questions, only: [] do
-    resources :answers, only: [:new, :create]
+    resources :answers, only: [:create]
   end
 
   # Example resource route with more complex sub-resources:

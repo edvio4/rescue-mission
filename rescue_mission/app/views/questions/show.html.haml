@@ -1,0 +1,24 @@
+%p#notice= notice
+
+
+%h1= @question.title
+%hr/
+%div= @question.description
+
+%div= link_to 'Edit Question', edit_question_path(@question)
+%div= link_to 'Delete Question', @question, method: :delete, data: { confirm: 'Are you sure?' }
+
+%hr
+%h2 Answers
+
+%ul= render @answers
+
+%hr
+%div
+  = form_for([@question, @answer]) do |f|
+    %div= f.label :description, "Add an Answer"
+    %div= f.text_area :description, placeholder: "Answer Description"
+
+    %div= render '/answers/form'
+
+%div= link_to 'Back to Questions', questions_path

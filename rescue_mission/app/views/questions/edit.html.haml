@@ -1,0 +1,11 @@
+%h1 Editing Question
+%div
+  = form_for(@question) do |f|
+    %div= f.label :title
+    %div= f.text_area :title, :placeholder => "Question Title"
+    %div= f.label :description
+    %div= f.text_area :description, :placeholder => "Question Description"
+    %div= render 'form'
+
+%div= link_to 'Delete Question', @question, method: :delete, data: { confirm: 'Are you sure?' }
+%div= link_to 'Back to Question Detail View', @question

@@ -1,0 +1,11 @@
+-# loop
+%li
+  = answer.description
+  - if answer.best_answer
+    **BEST ANSWER**
+
+  %div
+    - if @best_answer_flag
+      = form_for(answer) do |f|
+        = f.hidden_field(:best_answer, value: true)
+        = f.submit "Best Answer"
